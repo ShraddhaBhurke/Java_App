@@ -1,17 +1,17 @@
 pipeline { 
     agent any
 	environment {
-		def mvnHome =  tool name: 'Maven', type: 'maven'
+		def MAVEN_HOME =  tool name: 'Maven', type: 'maven'
 	}
     stages {
         stage('Build') {
             steps {
-		bat '${mvnHome}\\bin\\mvn clean package'
+		bat '${MAVEN_HOME}\\bin\\mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                bat '${mvnHome}\\bin\\mvn test'
+                bat '${MAVEN_HOME}\\bin\\mvn test'
             }
 	    post {
 	      always {
