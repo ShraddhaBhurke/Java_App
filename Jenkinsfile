@@ -2,9 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-	    def mvnHome =  tool name: 'Maven', type: 'maven'   
-	    bat "${mvnHome}\\bin\\mvn package"
+	    
             steps {
+		def mvnHome =  tool name: 'Maven', type: 'maven'   
+	    	bat "${mvnHome}\\bin\\mvn package"
 		bat 'mvn clean package'
             }
         }
