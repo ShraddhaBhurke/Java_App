@@ -1,11 +1,9 @@
 pipeline { 
     agent any
-    environment {
-	def mvnHome =  tool name: 'Maven', type: 'maven'   
-	bat "${mvnHome}\\bin\\mvn package"
-    }
     stages {
         stage('Build') {
+	    def mvnHome =  tool name: 'Maven', type: 'maven'   
+	    bat "${mvnHome}\\bin\\mvn package"
             steps {
 		bat 'mvn clean package'
             }
@@ -16,21 +14,21 @@ pipeline {
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit 'target\surefire-reports\*.xml'
                 }
             }
         }
         stage('Deliver') {
             steps {
-                bat './jenkins/scripts/deliver.sh'
+                bat '.\jenkins\scripts\deliver.sh'
             }
         }
 	post {
-	    success {
+	    always {
 		emailext (
 		to: 'shra.bhurke@gmail.com',
-          	subject: "Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-          	body: """<p>Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+          	subject: "Jenkins: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+          	body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
             	<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
           	recipientProviders: [[$class: 'DevelopersRecipientProvider']]
         	)	
