@@ -1,17 +1,20 @@
 pipeline { 
     agent any
-	environment {
-		def MAVEN_HOME =  tool name: 'Maven', type: 'maven'
-	}
+	tools {
+      // Install the Maven version configured as "M3" and add it to the path.
+      maven "Maven"
+      jdk "JDK"
+      
+   }
     stages {
         stage('Build') {
             steps {
-		bat '${MAVEN_HOME}\\bin\\mvn clean package'
+		bat 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                bat '${MAVEN_HOME}\\bin\\mvn test'
+                bat 'mvn test'
             }
 	    post {
 	      always {
