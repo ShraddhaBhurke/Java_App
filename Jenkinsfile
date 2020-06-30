@@ -21,7 +21,8 @@ pipeline {
 		emailext (
 		to: 'shra.bhurke@gmail.com',
           	subject: "Jenkins: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-          	body: """<p>job executed</p>"""
+          	body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            	<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
             	
           	
         	)	
