@@ -19,9 +19,14 @@ pipeline {
 	}
 	stage('zip') {
             steps {
-		bat 'mkdir zipped_files'
-		bat 'copy \target\.*.jar zipped_files'
-		bat 'copy .*.sql zipped_files'
+		bat 'rmdir /Q /S zipped_files'
+	    	bat 'mkdir zipped_files'
+	    	bat 'copy target\\*.jar zipped_files'
+	    	bat 'copy *.sql zipped_files'
+	    	echo "ZIP"
+	    	zip zipFile: 'zipped_files.zip', archive: true, dir: 'zipped_files'
+	    	archiveArtifacts artifacts: 'zipped_files.zip', fingerprint: true
+	    	echo "END - ZIP"
             }
 	    post {
 	      always {
