@@ -19,7 +19,9 @@ pipeline {
 	}
 	stage('zip') {
             steps {
-		bat 'rmdir /Q /S zipped_files'
+		    if (fileExists('zipped_files')) {
+			bat 'rmdir /Q /S zipped_files'
+		    }
 	    	bat 'mkdir zipped_files'
 	    	bat 'copy target\\*.jar zipped_files'
 	    	bat 'copy *.sql zipped_files'
