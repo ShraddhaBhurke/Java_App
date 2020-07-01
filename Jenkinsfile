@@ -16,6 +16,13 @@ pipeline {
             steps {
                 bat 'mvn test'
             }
+	}
+	stage('zip') {
+            steps {
+		bat 'mkdir zipped_files'
+		bat 'copy \target\.*.jar zipped_files'
+		bat 'copy .*.sql zipped_files'
+            }
 	    post {
 	      always {
 		emailext (
